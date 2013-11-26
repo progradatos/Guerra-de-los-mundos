@@ -28,7 +28,7 @@ public class Inicio extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the frame. Case of
 	 */
 	public Inicio() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
