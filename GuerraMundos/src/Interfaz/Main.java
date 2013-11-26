@@ -1,4 +1,4 @@
-package capaGrafica;
+package Interfaz;
 
 public class Main {
 
