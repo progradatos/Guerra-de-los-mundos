@@ -7,18 +7,26 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.Color;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
+
+
 
 public class menu extends JFrame {
 
 	private JPanel contentPane;
+	private ArrayList<Integer> coordenadas;
 
 	/**
 	 * Launch the application.
@@ -43,6 +51,12 @@ public class menu extends JFrame {
 	int peticion = 0;
 	
 	public menu() {
+		
+		coordenadas = new ArrayList<Integer>();
+		
+		
+		
+		
 		setTitle("Guerra de los Mundos - Menu Principal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 588, 265);
@@ -59,12 +73,12 @@ public class menu extends JFrame {
 		contentPane.add(panelMatriz2);
 		panelMatriz2.hide();
 		
-			final JPanel panelMatriz = new JPanel();
-			panelMatriz.setBounds(22, 122, 521, 310);
-			panelMatriz.setLayout(null);
-			panelMatriz.setBackground(new Color(5,0,66));
-			contentPane.add(panelMatriz);
-			panelMatriz.hide();
+		final JPanel panelMatriz = new JPanel();
+		panelMatriz.setBounds(22, 122, 521, 310);
+		panelMatriz.setLayout(null);
+		panelMatriz.setBackground(new Color(5,0,66));
+		contentPane.add(panelMatriz);
+		panelMatriz.hide();
 		
 		final JPanel panelMatriz3 = new JPanel();
 		panelMatriz3.setBounds(22, 122, 521, 310);
@@ -73,6 +87,19 @@ public class menu extends JFrame {
 		contentPane.add(panelMatriz3);
 		panelMatriz3.hide();
 		
+		final JPanel panelFinal = new JPanel();
+		panelFinal.setBounds(22, 122, 521, 310);
+		panelFinal.setLayout(null);
+		panelFinal.setBackground(new Color(5,0,66));
+		contentPane.add(panelFinal);
+		panelFinal.hide();
+		
+		final JButton botonIniciar = new JButton("Iniciar!");
+		botonIniciar.setBounds(310, 123, 150, 37);
+		panelFinal.add(botonIniciar);
+		
+		
+		
 		final JButton botonOpciones = new JButton("Opciones");
 		botonOpciones.setBounds(10, 123, 548, 37);
 		contentPane.add(botonOpciones);
@@ -80,10 +107,6 @@ public class menu extends JFrame {
 		final JButton botonSalir = new JButton("Salir");
 		botonSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				peticion = 2;
-				panelMatriz.hide();
-				matriz(panelMatriz2);
-				panelMatriz2.show();
 			}
 		});
 		botonSalir.setBounds(10, 171, 548, 37);
@@ -94,6 +117,7 @@ public class menu extends JFrame {
 		lblGuerraDeLos.setFont(new Font("Trajan Pro 3", Font.PLAIN, 26));
 		lblGuerraDeLos.setBounds(122, 37, 337, 27);
 		contentPane.add(lblGuerraDeLos);
+		
 		
 		JLabel labelPet1 = new JLabel("Seleccione la posicion inicial");
 		labelPet1.setForeground(new Color(255, 255, 255));
@@ -107,6 +131,30 @@ public class menu extends JFrame {
 		labelPet2.setBounds(310, 15, 200, 100);
 		panelMatriz.add(labelPet2);
 		
+		JLabel labelPet3 = new JLabel("Seleccione la posicion de");
+		labelPet3.setForeground(new Color(255, 255, 255));
+		labelPet3.setFont(new Font("Calibri", Font.PLAIN,17));
+		labelPet3.setBounds(310, 0, 200, 100);
+		panelMatriz2.add(labelPet3);
+		
+		JLabel labelPet4 = new JLabel("un primer conector:");
+		labelPet4.setForeground(new Color(255, 255, 255));
+		labelPet4.setFont(new Font("Calibri", Font.PLAIN,17));
+		labelPet4.setBounds(310, 15, 200, 100);
+		panelMatriz2.add(labelPet4);
+		
+		JLabel labelPet5 = new JLabel("Seleccione la posicion del");
+		labelPet5.setForeground(new Color(255, 255, 255));
+		labelPet5.setFont(new Font("Calibri", Font.PLAIN,17));
+		labelPet5.setBounds(310, 0, 200, 100);
+		panelMatriz3.add(labelPet5);
+		
+		JLabel labelPet6 = new JLabel("primer mercado:");
+		labelPet6.setForeground(new Color(255, 255, 255));
+		labelPet6.setFont(new Font("Calibri", Font.PLAIN,17));
+		labelPet6.setBounds(310, 15, 200, 100);
+		panelMatriz3.add(labelPet6);
+		
 		JButton botonJugar = new JButton("Jugar");
 		botonJugar.setBackground(new Color(204, 255, 255));
 		botonJugar.addActionListener(new ActionListener() {
@@ -118,10 +166,12 @@ public class menu extends JFrame {
 				setBounds(100, 100, 590, 571);
 				
 				peticion = 1;
-				matriz(panelMatriz);
+				matriz(panelMatriz,panelMatriz2,panelMatriz3,panelFinal);
 				panelMatriz.show();
 				panelMatriz2.hide();
 				panelMatriz3.hide();
+				panelFinal.hide();
+					
 				
 				//botonOpciones.disable();
 				//botonSalir.disable();
@@ -149,14 +199,20 @@ public class menu extends JFrame {
 		
 		
 		
+		
+		
 	}
 	
 	
 	
-	public void matriz(JPanel panel)
+	public void matriz(final JPanel panel , final JPanel panel2, final JPanel panel3, final JPanel panel4 )
 	{
 		//MATRIZ
-		int columna,fila;
+		int columna;
+		int fila;
+		final int c;
+		int f;
+		final boolean click;
 		for(fila = 0 ; fila < 15 ; fila++)
 		{
 			for(columna = 0 ; columna < 15 ; columna++)
@@ -166,45 +222,125 @@ public class menu extends JFrame {
 				botonAux.setBounds(fila*20 ,columna*20, 20, 20);
 				if(peticion == 1)
 				{	
-					botonAux.addMouseListener(new MouseAdapter(){
-						public void mouseEntered(MouseEvent arg0) {
-							botonAux.setBackground(new Color(255,36,4));
-						}
-					});
-					botonAux.addMouseListener(new MouseAdapter(){
-						public void mouseExited(MouseEvent arg0) {
-							botonAux.setBackground(new Color(255,255,255));
-						}
-					});
+					final int columnaClickeada = columna;
+					final int filaClickeada = fila;
+					if(columna != 14 && fila != 14)
+					{
+						botonAux.addMouseListener(new MouseAdapter(){
+							public void mouseEntered(MouseEvent arg0) {
+								botonAux.setBackground(new Color(255,36,4));
+							}
+						});
+						botonAux.addMouseListener(new MouseAdapter(){
+							public void mouseExited(MouseEvent arg0) {
+								botonAux.setBackground(new Color(255,255,255));
+							}
+						});
+						botonAux.addMouseListener(new MouseAdapter(){
+							public void mouseClicked(MouseEvent arg0) {
+								peticion = 2;
+								panel.hide();
+								panel2.show();
+								coordenadas.add(filaClickeada);
+								coordenadas.add(columnaClickeada);
+								coordenadas.add(filaClickeada);
+								coordenadas.add(columnaClickeada+1);
+								coordenadas.add(filaClickeada+1);
+								coordenadas.add(columnaClickeada);
+								coordenadas.add(filaClickeada+1);
+								coordenadas.add(columnaClickeada+1);
+								matriz(panel,panel2,panel3,panel4);	
+							}
+						});
+						
+						
+					}
+					panel.add(botonAux);
 				}
 				if(peticion == 2)
 				{	
-					botonAux.addMouseListener(new MouseAdapter(){
-						public void mouseEntered(MouseEvent arg0) {
-							botonAux.setBackground(new Color(0,255,64));
+					if((columna == coordenadas.get(1) && fila == coordenadas.get(0)) || (columna == coordenadas.get(7) && fila == coordenadas.get(6)) || (columna == coordenadas.get(5) && fila == coordenadas.get(4)) || (columna == coordenadas.get(3) && fila == coordenadas.get(2)))
+						botonAux.setBackground(new Color(255,36,4));
+					else
+					{
+						if(validarPuente(fila,columna))
+						{
+							final int columnaClickeada = columna;
+							final int filaClickeada = fila;
+							botonAux.addMouseListener(new MouseAdapter(){
+								public void mouseEntered(MouseEvent arg0) {
+									botonAux.setBackground(new Color(0,255,64));
+								}
+							});
+							botonAux.addMouseListener(new MouseAdapter(){
+								public void mouseExited(MouseEvent arg0) {
+									botonAux.setBackground(new Color(255,255,255));
+								}
+							});
+							botonAux.addMouseListener(new MouseAdapter(){
+								public void mouseClicked(MouseEvent arg0) {
+									peticion = 3;
+									panel2.hide();
+									panel3.show();
+									coordenadas.add(filaClickeada);
+									coordenadas.add(columnaClickeada);
+									matriz(panel,panel2,panel3,panel4);
+									
+								}
+							});
 						}
-					});
-					botonAux.addMouseListener(new MouseAdapter(){
-						public void mouseExited(MouseEvent arg0) {
-							botonAux.setBackground(new Color(255,255,255));
-						}
-					});
+					}
+					panel2.add(botonAux);
 				}
 				if(peticion == 3)
 				{	
+					
 					botonAux.addMouseListener(new MouseAdapter(){
-						public void mouseEntered(MouseEvent arg0) {
-							botonAux.setBackground(new Color(35,75,176));
+						public void mouseClicked(MouseEvent arg0) {
+							peticion = 4;
+							panel3.hide();
+							panel4.show();
+							matriz(panel,panel2,panel3,panel4);
+							
 						}
 					});
-					botonAux.addMouseListener(new MouseAdapter(){
-						public void mouseExited(MouseEvent arg0) {
-							botonAux.setBackground(new Color(255,255,255));
-						}
-					});
+					panel3.add(botonAux);
 				}
-				panel.add(botonAux);
+				if(peticion == 4)
+				{	
+					
+					botonAux.addMouseListener(new MouseAdapter(){
+						public void mouseClicked(MouseEvent arg0) {
+							//peticion = 5;
+							//panel3.hide();
+							//panel4.show();
+							//matriz(panel,panel2,panel3,panel4);
+							
+						}
+					});
+					panel4.add(botonAux);
+				}
+				
 			}
 		}
 	}
+	
+	
+	public boolean validarPuente(int fila, int columna)
+	{
+		boolean validez = false;
+		if(fila==coordenadas.get(0) || fila==coordenadas.get(2) || fila==coordenadas.get(4) || fila==coordenadas.get(6))
+		{
+			if(columna==coordenadas.get(1)-1 || columna==coordenadas.get(3)+1 || columna==coordenadas.get(5)-1 || columna==coordenadas.get(7)+1)
+				validez = true;
+		}
+		if(columna==coordenadas.get(1) || columna==coordenadas.get(3) || columna==coordenadas.get(5) || columna==coordenadas.get(7))
+		{
+			if(fila==coordenadas.get(0)-1 || fila==coordenadas.get(4)+1 || fila==coordenadas.get(2)-1 || fila==coordenadas.get(6)+1)
+				validez = true;
+		}
+		return validez;
+	}
+	
+	
 }
