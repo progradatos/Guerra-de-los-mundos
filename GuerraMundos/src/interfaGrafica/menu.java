@@ -100,13 +100,19 @@ public class menu extends JFrame {
 		
 		
 		
-		final JButton botonOpciones = new JButton("Opciones");
+		final JButton botonOpciones = new JButton("Ayuda");
 		botonOpciones.setBounds(10, 123, 548, 37);
+		botonOpciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//mensaje ayuda
+			}
+		});
 		contentPane.add(botonOpciones);
 		
 		final JButton botonSalir = new JButton("Salir");
 		botonSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				hide();
 			}
 		});
 		botonSalir.setBounds(10, 171, 548, 37);
@@ -155,16 +161,25 @@ public class menu extends JFrame {
 		labelPet6.setBounds(310, 15, 200, 100);
 		panelMatriz3.add(labelPet6);
 		
-		JButton botonJugar = new JButton("Jugar");
+		final JButton botonJugar = new JButton("Jugar");
 		botonJugar.setBackground(new Color(204, 255, 255));
 		botonJugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				if(peticion > 0 )
+				{
+					hide();
+					menu frame2 = new menu();
+					frame2.setVisible(true);
+					
+				}
 				
 				// AL HACER CLICK
 				botonOpciones.setBounds(10,443,548,27);
 				botonSalir.setBounds(10,491,548,27);
 				setBounds(100, 100, 590, 571);
 				
+				botonJugar.setText("Cancelar");
 				peticion = 1;
 				matriz(panelMatriz,panelMatriz2,panelMatriz3,panelFinal);
 				panelMatriz.show();
@@ -294,30 +309,60 @@ public class menu extends JFrame {
 				}
 				if(peticion == 3)
 				{	
-					
-					botonAux.addMouseListener(new MouseAdapter(){
-						public void mouseClicked(MouseEvent arg0) {
-							peticion = 4;
-							panel3.hide();
-							panel4.show();
-							matriz(panel,panel2,panel3,panel4);
-							
+					if((columna == coordenadas.get(1) && fila == coordenadas.get(0)) || (columna == coordenadas.get(7) && fila == coordenadas.get(6)) || (columna == coordenadas.get(5) && fila == coordenadas.get(4)) || (columna == coordenadas.get(3) && fila == coordenadas.get(2)))
+						botonAux.setBackground(new Color(255,36,4));
+					else
+					{
+						if(columna == coordenadas.get(9) && fila == coordenadas.get(8))
+							botonAux.setBackground(new Color(0,255,64));
+						else
+						{
+							if(validarMercado(fila,columna))
+							{
+								final int columnaClickeada = columna;
+								final int filaClickeada = fila;
+								botonAux.addMouseListener(new MouseAdapter(){
+									public void mouseClicked(MouseEvent arg0) {
+										peticion = 4;
+										panel3.hide();
+										panel4.show();
+										coordenadas.add(filaClickeada);
+										coordenadas.add(columnaClickeada);
+										buscarRestoMercado();
+										matriz(panel,panel2,panel3,panel4);
+										
+									}
+								});
+								botonAux.addMouseListener(new MouseAdapter(){
+									public void mouseEntered(MouseEvent arg0) {
+										botonAux.setBackground(new Color(63,72,204));
+									}
+								});
+								botonAux.addMouseListener(new MouseAdapter(){
+									public void mouseExited(MouseEvent arg0) {
+										botonAux.setBackground(new Color(255,255,255));
+									}
+								});
+							}
 						}
-					});
+					}
 					panel3.add(botonAux);
 				}
 				if(peticion == 4)
 				{	
-					
-					botonAux.addMouseListener(new MouseAdapter(){
-						public void mouseClicked(MouseEvent arg0) {
-							//peticion = 5;
-							//panel3.hide();
-							//panel4.show();
-							//matriz(panel,panel2,panel3,panel4);
-							
+					if((columna == coordenadas.get(1) && fila == coordenadas.get(0)) || (columna == coordenadas.get(7) && fila == coordenadas.get(6)) || (columna == coordenadas.get(5) && fila == coordenadas.get(4)) || (columna == coordenadas.get(3) && fila == coordenadas.get(2)))
+						botonAux.setBackground(new Color(255,36,4));
+					else
+					{
+						if(columna == coordenadas.get(9) && fila == coordenadas.get(8))
+							botonAux.setBackground(new Color(0,255,64));
+						else
+						{
+							if(columna==coordenadas.get(13) && fila==coordenadas.get(12) || columna==coordenadas.get(11) && fila==coordenadas.get(10))
+								botonAux.setBackground(new Color(63,72,204));
 						}
-					});
+					
+					}
 					panel4.add(botonAux);
 				}
 				
@@ -342,5 +387,58 @@ public class menu extends JFrame {
 		return validez;
 	}
 	
+	public boolean validarMercado(int fila, int columna)
+	{
+		boolean validez = false;
+		if(fila==coordenadas.get(8))
+		{
+			if(columna==coordenadas.get(9)+1 || columna==coordenadas.get(9)-1)
+				validez = true;
+		}
+		if(columna==coordenadas.get(9))
+		{
+			if(fila==coordenadas.get(8)+1 || fila==coordenadas.get(8)-1)
+				validez = true;
+		}
+		return validez;
+	}
+	
+	public void buscarRestoMercado()
+	{
+		int mercadoFila = coordenadas.get(10);
+		int mercadoColumna = coordenadas.get(11);
+		
+		int f1,f2,f3,f4, c1,c2,c3,c4;
+		f1 = mercadoFila;
+		c1 = mercadoColumna + 1;
+		f2 = f1 - 1;
+		c2 = c1 - 1;
+		f3 = f1;
+		c3 = c1 - 2;
+		f4 = f1 + 1;
+		c4 = c2;
+		
+		int c ,f;
+		int[][] pareja = {{f1,c1},{f2,c2},{f3,c3},{f4,c4}} ;
+		int[] parAux ; 
+		
+		int i;
+		for(i = 0 ; i < 4 ; i++)
+		{
+			
+			parAux = pareja[i];
+			f = parAux[0];
+			c = parAux[1];
+			System.out.println(f);
+			System.out.println(c);
+			if(! ( (f==coordenadas.get(0) && c==coordenadas.get(1)) || (f==coordenadas.get(2) && c==coordenadas.get(3)) || (f==coordenadas.get(4) && c==coordenadas.get(5)) || (f==coordenadas.get(6) && c==coordenadas.get(7)) || (f==coordenadas.get(8) && c==coordenadas.get(9)) ))
+			{
+				coordenadas.add(f);
+				coordenadas.add(c);
+				//break;
+			}
+		}
+		
+	}
 	
 }
